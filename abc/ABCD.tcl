@@ -3,7 +3,7 @@ namespace eval ::abc {
 
 Class create ABCD -superclass { ::xox::Node }
 
-ABCD id {$Id: ABCD.tcl,v 1.14 2008/08/18 18:47:44 bthomass Exp $}
+ABCD id {$Id: $}
   
 ABCD @doc ABCD {
 Please describe ABCD here.
