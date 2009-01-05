@@ -1,0 +1,44 @@
+set languages { ::xodsl::Language {Language} 
+                ::xohtml::HtmlGenerationLanguage {} 
+                ::xohtml::WidgetLibraryLanguage {} 
+                ::xodocument::ClassDocLanguage {} }
+defineWidget LanguageLink { name } { } {
+        li { 
+            a -href "[ namespace tail $name ].docs.html" ' [ namespace tail $name ]
+        }
+}
+Page {
+    fileName docs/languages.html
+    content {
+        html {
+            head title ' Languages
+            body {
+                new XohtmlCss 
+                div -class object {
+                    h1 ' Language Docs
+                    ul {
+                        foreach { language tags } $languages {
+                            new LanguageLink -name $language
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+foreach { language tags } $languages {
+    package require [ ::xox::Package getPackageFromClass $language ]
+    set languageName [ namespace tail $language ]
+    Page {
+        fileName docs/${languageName}.docs.html
+        content {
+            html {
+                head title ' $languageName
+                body {
+                    new XohtmlCss -width 80%
+                    new LanguageDoc -language $language -tags $tags
+                }
+            }
+        }
+    }
+}

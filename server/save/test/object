@@ -1,0 +1,10 @@
+{::xoserialize::serial3}
+{::xoserialize::serial3}
+{Object create {::xoserialize::serial3} -noinit \
+-class {::xotcl::Object} \
+
+{::xoserialize::serial3} eval {
+}
+{::xoserialize::serial3} invar {} 
+
+}

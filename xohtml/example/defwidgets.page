@@ -1,0 +1,35 @@
+defineWidget HelloWorld { name } { } { h1 ' $name }
+defineWidget Grid { rows columns data } {  } {
+     table {
+        thead {
+            th { }
+            foreach column $columns {
+                th ' $column
+            }
+        }
+        tbody {
+            set x 0 
+            foreach row $rows {
+                tr {
+                    th ' $row 
+                    foreach column $columns {
+                        td { evalWrite lindex $data $x }
+                        incr x 
+                    } 
+                } 
+            } 
+        } 
+    } 
+}
+html { 
+    head {
+        title ' "A page"
+        style ' ""
+    }
+    body {
+        new HelloWorld -name Ben
+        new Grid -rows {A B C} \
+                 -columns {1 2 3} \
+                 -data {A1 B1 C1 A2 B2 C2 A3 B3 C3} 
+    }
+}

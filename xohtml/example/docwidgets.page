@@ -1,0 +1,46 @@
+::xotcl::Object create ::o
+::o set a 5
+::o array set b {a 1 b 2}
+::o proc hi { a b c } {
+    puts hi
+}
+
+::o proc hello { } {
+    puts hello
+    puts there
+}
+
+foreach name {a b c d e f g h i j k l m n o p 1 2 3 4 5 6 7 8 9 0} {
+    ::o proc $name { } {
+
+    }
+}
+
+html {
+    head {
+        css {
+            body {
+                font-family: Helvetica,Arial,Sans-Serif;
+                background-color: #CCC;
+            }
+            .object {
+                border: thin solid blue;
+                padding: 1em;
+                width: 500px;
+                background-color: #fff;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .procedure pre { 
+                padding: 20px;
+                border: 1px solid #dadada;
+                font-size: 9pt;
+                color: #220088;
+                overflow: auto;
+            }
+        }
+    }
+    body {
+        new ObjectDoc -object ::o
+    }
+}

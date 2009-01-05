@@ -1,0 +1,18 @@
+
+package require XOTcl
+
+package require xogrid
+
+proc bgerror { message } {
+
+    global errorInfo
+
+    puts "$message"
+}
+
+::xogrid::Worker create aWorker
+
+aWorker start [ lindex $argv 0 ]
+
+
+

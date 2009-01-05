@@ -1,0 +1,14 @@
+<!-- Created at Wed Jun 13 15:08:58 EDT 2007 by bthomass -->
+<testsuite package="xoserialize::test">
+    <name>xoserialize Unit Tests</name>
+    <location> /var/www/html/xoserialize/</location>
+    <webPath> http://rtp-xdm-001/xoserialize/ </webPath>
+    <title> xoserialize Continuous Testing </title>
+    <url> http://xotcllib.sourceforge.net </url>
+    <packages> xoserialize </packages>
+    <times> -1 </times>
+    <delay> 30 </delay>
+    <::xoserialize::test::TestSerializer/>
+    <::xoserialize::test::TestXmlSerializer/>
+</testsuite>
+

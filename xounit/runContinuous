@@ -1,0 +1,17 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+package require xounit
+package require xoexception
+
+if { [ llength $argv ] == 0 } {
+
+   puts "Usage: runContinuous suite.xml"
+
+   exit
+}
+
+eval ::xounit::RunSuiteContinuous new $argv
+

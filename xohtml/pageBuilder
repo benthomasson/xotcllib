@@ -1,0 +1,27 @@
+#!/bin/bash 
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@" 
+
+if { [ llength $::argv ] < 2 } {
+    puts "pageBuilder <inputfile> <outputfile>"
+    exit
+}
+
+puts [ time { package require xohtml } 1 ]
+
+::xoexception::try {
+
+puts [ time { 
+
+set file [ lindex $::argv 0 ]
+set out [ ::xohtml::build [ Object new ] [ ::xox::readFile $file ] ]
+#puts $out
+::xox::writeFile [ lindex $::argv 1 ] $out
+
+} 1 ]
+
+} catch { ::xoexception::Exception e } {
+
+    puts [ $e message ]
+}

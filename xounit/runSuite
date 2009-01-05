@@ -1,0 +1,22 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+package require xotcllib
+
+if { [ llength $argv ] == 0 } {
+
+   puts "Usage: runSuite suite.xml"
+
+   exit
+}
+
+catch {
+    package require xometrics
+    ::xometrics::metrics nosend 1
+}
+
+set runner [ eval ::xounit::RunSuite new $argv ]
+exit [ $runner exitStatus ]
+

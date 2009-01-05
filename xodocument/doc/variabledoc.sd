@@ -1,0 +1,8 @@
+
+puts $title
+puts $text
+
+document $title {
+
+    text $text
+}

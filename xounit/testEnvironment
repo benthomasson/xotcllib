@@ -1,0 +1,19 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+package require xounit
+package require xoexception
+
+if { [ llength $argv ] == 0 } {
+
+   puts "Usage: testEnvironment environment.xml"
+
+   exit
+}
+
+set app [ ::xounit::Application new ]
+
+$app readConfig [ lindex $argv 0 ]
+

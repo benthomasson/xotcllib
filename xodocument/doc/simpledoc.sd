@@ -1,0 +1,356 @@
+document "SimpleDoc Documentation Language" {
+
+    section "Introduction" {
+        text {
+            SimpleDoc is a language that is built to encode the content
+            of documentation in a simple format. The style of the
+            documentation is controlled in a separate file.  This
+            allows multiple forms of documentation to be generated
+            from this content.
+        }
+    }
+
+    section "Getting Started" {
+
+        text {
+
+            SimpleDoc has a few simple commmands for organizing your content. These
+            commands are nested to provide organization and flexibility.  The main
+            commands in SimpleDoc are: document, section, text, example, and link.
+        }
+
+        text {
+
+            SimpleDoc commands have arguments and/or a body.  The body is a block of
+            text or other SimpleDoc commands.   
+        }
+
+        text {
+
+            Document starts the SimpleDoc document. Section organizes parts of the
+            document. Section can also be used inside of the section body to provide
+            subsections. Text is placed in a text block.  Examples are placed in an
+            example block.  Links to other documents are created with the link command.
+        }
+
+        example "SimpleDoc Example" {
+
+            document "Your Document" {
+                
+                section "Introduction" {
+
+                    text {
+
+                        Place the text of your document in text blocks.
+                    }
+
+                }
+
+                section "Getting Started" {
+
+                    text {
+
+                        You can have multiple text blocks in a section.
+                    }
+
+                    text {
+
+                        You can also have multiple section blocks in a section.
+                    }
+
+                    section "Sub-section" {
+
+                        text {
+
+                            This is a sub-section.
+                        }
+                    }
+
+                    example "Example Code" {
+
+                        Example blocks
+                    }
+                }
+            }
+        }
+    }
+
+    section "Generating HTML" {
+
+        text {
+
+        SimpleDoc makes generating HTML from your SimpleDoc files simple.  The simpleDoc interpreter reads
+        your SimpleDoc file and generates HTML.   This new file can then be published to your webserver and
+        the documentation is available to your users.
+
+        }
+
+        example "Generating HTML" {
+
+            >simpleDoc your_doc_file.sd
+            Wrote your_doc_file.sd.xml
+            Wrote your_doc_file.sd.html
+        }
+
+        text {
+
+            Notice that an XML file is generated as well as an HTML file.  This allows you to use
+            custom XSL transforms.
+        }
+    }
+
+    section "Variables and Tcl Commands" {
+
+        text {
+
+            The text command allows Tcl commands in square brackets to be executed inside your text.  Also
+            variables that are set anywhere in the SimpleDoc document can be accessed using the dollar-sign 
+            convention.
+        }
+
+        example "Setting and Getting Values in Variables" {
+
+            document "Variable Example" {
+
+                qset author "Ben Thomasson"
+                qset department "NSITE"
+                qset team "NEAT"
+
+                section Example {
+
+                    text {
+
+                        $author in $team, $department has written an interesting
+                        language called SimpleDoc. It can be used to create 
+                        documentation for your Tcl code and to generate HTML in
+                        any format you like.
+                    }
+                }
+            }
+        }
+
+        text {
+
+            The "qset" command is a special form of set that quietly sets the variable to a value and returns nothing.  This
+            is useful in SimpleDoc since all return values are concatentated togther to form the output.
+
+        }
+    }
+
+    section "SimpleDoc Commands" {
+
+        commandList
+
+        commandReference ::xodocument::SimpleDocLanguage document
+        commandReference ::xodocument::SimpleDocLanguage section
+        commandReference ::xodocument::SimpleDocLanguage text
+        commandReference ::xodocument::SimpleDocLanguage example
+        commandReference ::xodocument::SimpleDocLanguage code
+        commandReference ::xodocument::SimpleDocLanguage qset
+        commandReference ::xodocument::SimpleDocLanguage link
+        commandReference ::xodocument::SimpleDocLanguage Author
+        commandReference ::xodocument::SimpleDocLanguage Date
+        commandReference ::xodocument::SimpleDocLanguage unorderedList
+        commandReference ::xodocument::SimpleDocLanguage orderedList
+        commandReference ::xodocument::SimpleDocLanguage package
+        commandReference ::xodocument::SimpleDocLanguage commandList
+        commandReference ::xodocument::SimpleDocLanguage commandReference
+    }
+
+    section "Custom XSLTs" {
+
+        text {
+
+            SimpleDoc generates XML that can then be transformed into other formats via XSLT.  Users
+            of SimpleDoc can provide their own XSL files to transform the XML into HTML or whatever
+            XML based format they would like. XSL files are specified on the command line after the
+            SimpelDoc file. The command suffix for the new file should follow the XSL file.
+        }
+
+        text {
+            In this example the SimpleDoc file your_doc_file.sd is being converted to HTML via
+            a custom XSL file html.xsl.
+        }
+
+        example "Custom XSLT" {
+
+            >simpleDoc your_doc_file.sd html.xsl html
+            Wrote your_doc_file.sd.xml
+            Wrote your_doc_file.sd.html
+        }
+
+        text {
+
+            The following is the XML produced by SimpleDoc running on the first example on this page.
+            This is useful in building your own custom XSL file.
+        }
+
+        example "XML" {
+
+<document>
+    <title>Your Document</title>
+    <section>
+        <title>Introduction</title>
+        <text>
+            <body>
+                    Place the text of your document in text blocks.
+            </body>
+        </text>
+    </section>
+    <section>
+        <title>Getting Started</title>
+        <text>
+            <body>
+                    You can have multiple text blocks in a section.
+            </body>
+        </text>
+        <text>
+            <body>
+                    You can also have multiple section blocks in a section.
+            </body>
+        </text>
+        <section>
+            <title>Sub-section</title>
+            <text>
+                <body>
+                            This is a sub-section.
+                </body>
+            </text>
+        </section>
+        <example>
+            <title>Example Code</title>
+            <body>
+                    Example blocks
+            </body>
+        </example>
+    </section>
+</document>
+
+        }
+    }
+
+    section "Custom Templates" {
+
+        text {
+
+            SimpleDoc provides advanced users with custom templates that allow them to extend the SimpleDoc
+            Language.  These templates should appear before the document command. They include: template,
+            bodyTemplate, and fixedBodyTemplate.
+        }
+
+        text {
+
+            template creates a SimpleDoc command that takes several arguments.  The arguments
+            will be associated with called values.  
+        }
+
+        example "template" {
+
+            template triple {x y z}
+
+            document {
+
+                triple 4 5 6
+            }
+        }
+
+        text {
+
+            This produces the following XML.
+        }
+
+        example "template XML" {
+
+<document>
+    <title>Template Example</title>
+    <triple>
+    <x>1</x><y>2</y><z>3</z>
+</triple>
+</document>
+
+        }
+
+        text {
+
+            bodyTemplate evaluates its body which can contain SimpleDoc commands or Tcl commands.
+            bodyTemplate can also take several arguments in addition to a body.  The arguments
+            will be associated with the called values in the XML.
+        }
+
+        example "bodyTemplate" {
+
+            bodyTemplate paragraph {}
+
+            document {
+
+                paragraph {
+
+                }
+            }
+        }
+
+        text {
+
+            This produces the folowing XML.
+        }
+
+        example "bodyTemplate XML" {
+
+<document>
+    <title>Template Example</title>
+    <paragraph>
+    
+    
+</paragraph>
+</document>
+
+        }
+
+        text {
+
+            fixedBodyTemplate does not evaluate its body.  This is useful for code examples.
+            Again, fixedBodyTemplate can take several arguments that will be associated with 
+            called values in the XML.
+
+        }
+
+        example "fixedBodyTemplate" {
+
+            fixedBodyTemplate description {}
+
+            document "Template Example" {
+
+                description {
+
+                }
+            }
+        }
+
+        text {
+
+            This produces the following XML.
+        }
+
+        example "fixedBodyTemplate XML" {
+<document>
+    <title>Template Example</title>
+    <description>
+    
+    <body>
+
+    </body>
+</description>
+</document>
+
+        }
+    }
+
+    section "Other Formats" {
+
+        text {
+
+            Output formats other than XML or HTML are possible with SimpleDoc.  However they require knowledge of XOTcl and the inner
+            workings of SimpleDoc.  Upon request I can create new formats for you.  Send an email to bthomass@cisco.com
+        }
+    }
+}

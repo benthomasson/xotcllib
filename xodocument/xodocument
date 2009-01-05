@@ -1,0 +1,49 @@
+#!/bin/bash 
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@" 
+
+# Name: xodocument
+# Purpose: Generate documentation for XOTcl Classes
+# Author: Benjamin Thomasson
+# Support Alias: ben.thomasson@gmail.com
+# Usage: xodocument [ package name ] [ package name ] ...
+# Example: 
+# 
+#   ./xodocument xox xoexception xounit xort 
+#
+# Description: xodocument generates HTML pages from XOTcl code. 
+#   The style is similar to javadoc, but the content is changes to
+#   better describe the XOTcl language.
+#   The generated documents are created in a directory named xodoc under
+#   the current directory where this script is run.
+# Requirements: Both of xotcl, xounit.ecsforge.cisco.com in the 
+#   unix environment variable TCLLIBPATH.
+
+package require XOTcl
+package require xodocument
+
+set namespaces ""
+
+foreach arg [ lrange $argv 0 end ] {
+
+    if [ catch {
+
+        package require "${arg}"
+        puts "Loaded ${arg}"
+        lappend namespaces "::${arg}*"
+
+    } result ] {
+
+        global errorInfo
+
+        puts "Could not load ${arg}\n$result"
+        puts "Error: $errorInfo"
+    }
+}
+
+set doc [ ::xodocument::HtmlSimpleDocument new ]
+
+$doc project [ lindex $argv 0 ]
+$doc namespaces $namespaces
+$doc generateDoc xodoc

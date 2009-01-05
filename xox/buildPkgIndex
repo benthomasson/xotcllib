@@ -1,0 +1,11 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+
+#move this to xox::Package
+
+package require xox
+
+eval ::xox::Package buildPkgIndex [ file tail [ pwd ] ]

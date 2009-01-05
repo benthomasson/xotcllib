@@ -1,0 +1,106 @@
+  BODY { BACKGROUND: #dfdfdf; }
+  H1 { font-size: large }
+  .failure {  BACKGROUND: #ffffff;
+              BORDER: #dcdcdc 1px solid;
+              }
+  .error {    BACKGROUND: #ffffff;
+              BORDER: #dcdcdc 1px solid;
+              }
+              
+  TABLE.barGraph {
+          WIDTH: 100%;
+  }
+  TD.covered {
+          FONT-SIZE: 2px;
+          BACKGROUND: #00bf00;
+          BORDER-LEFT:#9c9c9c 1px solid;
+          BORDER-TOP:#9c9c9c 1px solid;
+          BORDER-BOTTOM:#9c9c9c 1px solid;
+  }
+  TD.uncovered {
+          FONT-SIZE: 2px;
+          BACKGROUND: #df0000;
+          BORDER:#9c9c9c 1px solid;
+  }
+  .FailureBody {
+          BORDER:#9c9c9c 1px solid;
+          BACKGROUND: #ffffff;
+  }
+  .FailureHeader {
+          BORDER-LEFT:#9c9c9c 1px solid;
+          BORDER-TOP:#9c9c9c 1px solid;
+          BORDER-RIGHT:#9c9c9c 1px solid;
+          BACKGROUND: #ffffff;
+  }
+  .FailureName {
+          BORDER:#9c9c9c 1px solid;
+          BACKGROUND: #ffffff;
+  }
+  .FailureTest {
+          BORDER:#9c9c9c 1px solid;
+          BACKGROUND: #ffffff;
+  }
+  .ErrorBody {
+          BORDER:#9c9c9c 1px solid;
+          BACKGROUND: #ffffff;
+  }
+  .ErrorHeader {
+          BORDER-LEFT:#9c9c9c 1px solid;
+          BORDER-TOP:#9c9c9c 1px solid;
+          BORDER-RIGHT:#9c9c9c 1px solid;
+          BACKGROUND: #ffffff;
+  }
+  TABLE.SummaryTable {
+          WIDTH: 100%;
+          border-collapse: collapse;
+          BORDER-LEFT:#9c9c9c 1px solid;
+          BORDER-RIGHT:#9c9c9c 1px solid;
+          MARGIN-TOP: 5px;
+          MARGIN-BOTTOM: 5px;
+          BACKGROUND: #ffffff;
+  }
+  TD.SummaryTable {
+          BORDER-BOTTOM:#9c9c9c 1px solid;
+          PADDING: 2px;
+          BACKGROUND: #ffffff;
+  }
+  TD.SummaryTableHeader {
+          BORDER-TOP:#9c9c9c 1px solid;
+          BORDER-BOTTOM:#9c9c9c 1px solid;
+          BACKGROUND: #eff7ff;
+          PADDING: 2px;
+  }
+  TABLE.FailureTable {
+          WIDTH: 100%;
+          border-collapse: collapse;
+          BORDER-LEFT:#9c9c9c 1px solid;
+          BORDER-RIGHT:#9c9c9c 1px solid;
+          MARGIN-TOP: 5px;
+          MARGIN-BOTTOM: 5px;
+          BACKGROUND: #ffffff;
+  }
+  TD.FailureTable {
+          BORDER-BOTTOM:#9c9c9c 1px solid;
+          WIDTH: 50%;
+          PADDING: 2px;
+          BACKGROUND: #FFCC66;
+  }
+  TD.ErrorTable {
+          BORDER-BOTTOM:#9c9c9c 1px solid;
+          WIDTH: 50%;
+          PADDING: 2px;
+          BACKGROUND: #FF9999;
+  }
+  TD.PassTable {
+          BORDER-BOTTOM:#9c9c9c 1px solid;
+          WIDTH: 50%;
+          PADDING: 2px;
+          BACKGROUND: #99FF99;
+  }
+  TD.FailureTableHeader {
+          WIDTH: 50%;
+          BORDER-TOP:#9c9c9c 1px solid;
+          BORDER-BOTTOM:#9c9c9c 1px solid;
+          BACKGROUND: #eff7ff;
+          PADDING: 2px;
+  }

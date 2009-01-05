@@ -1,0 +1,2 @@
+defineWidget HelloWorld { name } { } { h1 ' Hi $name }
+

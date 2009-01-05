@@ -1,0 +1,184 @@
+
+package require xox
+package require xounit
+package require xoexception
+package require xodocument
+package require xode
+
+document "XOTclLib Users Guide" {
+
+    section "Introduction" {
+
+        text {
+
+            XOTclLib is a library of extensions to the XOTcl language.
+        }
+    }
+
+    section "XOTclLib Modules" {
+
+        section "xox" {
+
+            text {
+
+                XOX is an extension of the XOTcl language.  It provides these features:
+
+                [ unorderedList {
+                    [ anchorLink XOTcl Packages ]
+                    [ anchorLink Code Templates ]
+                    Debugging
+                    Tracing
+                    Logging
+                    Higher Order Tcl
+                    Naive Garbage Collection
+                    Meta Data Declaration
+                    Automatic Super-Class Loading
+                    CVS Support
+                    XML Serialization
+                } ]
+            }
+        }
+
+        section "xounit" {
+
+            text {
+
+                XOUnit provides an implementation of the [ link "xUnit" "http://en.wikipedia.org/wiki/XUnit" ] framework for XOTcl.
+            }
+        }
+
+        section "xodocument" {
+
+            text {
+
+                Documentation tools for XOTcl including a JavaDoc style tool and a domain specific language for 
+                generating documents with integrated command reference documentation.
+            }
+        }
+
+        section "xoexception" {
+
+            text {
+                
+                Xoexception is an implementation of object exceptions and try/catch/finally similar to Java.
+            }
+
+        }
+
+        section "xointerp" {
+
+            text {
+
+                Xointerp is an implementation of a Tcl interpreter written in XOTcl.  This allows for the development of 
+                domain specific languages that use Tcl syntax, but define their own semantics for commands.   Domain specific
+                language commands are implemented as methods on an XOTcl class.   In other words, XOTcl classes define
+                the domain specific language. 
+            }
+        }
+
+        section "xoshell" {
+
+            text {
+
+                Xoshell is a command line interface written in XOTcl.  It is used with Xointerp to implement XODE.
+            }
+        }
+
+        section "xode" {
+
+            text { 
+
+                XODE is a command line development environment for XOTcl.  It provides a quick way to execute the commands provided
+                by XOTclLib  [ anchorLink Executables ].  XODE is started with the [ anchorLink xode ] command.
+            }
+
+            commandList 
+
+            commandReference ::xode::XodeShell init
+        }
+
+        section "simpletest" {
+
+            text {
+
+                SimpleTest is a domain specific language for testing XOTcl code. It uses xounit and xointerp to implement a 
+                domain specific language from ::xounit::TestCase.
+            }
+        }
+    }
+
+    section "Executables" {
+
+        section "Code Templates" {
+
+            commandList
+
+            classCommandReference ::xox::Package makePackage
+            classCommandReference ::xox::Package makeClass
+            classCommandReference ::xox::Package makeTest
+            classCommandReference ::xox::Package makeTcl
+
+        }
+
+        section "Unit Testing" {
+
+            commandList
+
+            commandReference ::xounit::RunATest init
+            commandReference ::xounit::RunTest init
+            commandReference ::xounit::RunTests init
+            commandReference ::xounit::RunSuite init
+
+        }
+
+        section "Documentation" {
+
+            commandList
+
+            commandReference ::xodocument::SimpleDoc init
+        }
+    }
+
+    section "XOTcl Packages" {
+
+        text { 
+            XOTcllib provides useful packaging to TCL and XOTcl libraries.   This is done by merging the namespace, package, and object concepts.  
+            ::xox::Package provides useful utilities for packages.  Since XOTcl objects can be Tcl namespaces it is possible to use instances
+            of ::xox::Package as namespaces where Tcl or XOTcl is located. 
+        }
+
+        text {
+
+            In order to use XOTcllib packaging in your code you will need to make the package using the [ anchorLink makePackage ] script.  This
+            creates this necessary files and objects needed to create your package.   This following example shows the package declaration file
+            for a package named "xyz".
+        }
+
+        example "Package Declaration" {
+
+
+            package require xotcllib
+
+            ::xox::Package create ::xyz
+            ::xyz loadAll 
+        }
+
+        text {
+
+            We take the following steps in this example:
+
+            [ orderedList {
+                Load xotcllib with "package require xotcllib."
+                Define a package named xyz and a namespace ::xyz.
+                Load all .tcl files found in subfolders where "xyz" is declared.
+            } ]
+        }
+
+        text {
+
+            Notice that all .tcl files are loaded with XOTcllib packaging.  This may cause problems if you have scripts
+            in your library directories with .tcl extensions.  It is a good practice to leave off .tcl on scripts that
+            do more than just declare procedures or classes.
+        }
+    }
+}

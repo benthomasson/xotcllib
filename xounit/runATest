@@ -1,0 +1,33 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+package require xounit
+
+#
+# runATest
+#
+#
+# runATest PACKAGE TESTNAME METHOD
+#
+#
+#
+#
+
+
+if { [ llength $argv ] < 2 } {
+
+   puts "Usage: runATest PACKAGENAME TESTNAME METHOD"
+   puts "Example: runATest xounit TestAssert test"
+
+   exit
+}
+catch {
+    package require xometrics
+    ::xometrics::metrics nosend 1
+}
+
+set runner [ eval ::xounit::RunATest new $argv ]
+exit [ $runner exitStatus ]
+

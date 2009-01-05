@@ -1,0 +1,17 @@
+
+package require xogrid
+
+Class A
+
+set a [ A new ]
+$a set var 5
+
+set ps [ ::xogrid::ProxyServer new 0 -object $a ]
+::xox::writeFile test/port [ $ps getPort ]
+
+while { 1 } {
+
+    after 100
+    $ps updateClients
+}
+

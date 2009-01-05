@@ -1,0 +1,41 @@
+#!/bin/bash 
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@" 
+
+if { [ llength $::argv ] < 1 } {
+    puts "siteBuilder <inputfile>"
+    exit
+}
+
+puts [ time { package require xohtml } 1 ]
+
+::xoexception::try {
+
+puts [ time { 
+
+set file [ lindex $::argv 0 ]
+    set builder [ ::xohtml::SiteBuilder newLanguage ]
+    $builder writeSite [ ::xox::readFile $file ]
+
+} 1 ]
+
+} catch { ::xoexception::Exception e } {
+
+    puts [ $e message ]
+}
+
+set count 0
+
+foreach object [ ::xox::ObjectGraph findAllInstances ::xotcl::Object ] {
+
+    if [ ::xotcl::Object isclass $object ] continue
+    if { "slot" == "[ namespace tail $object ]" } continue
+    if { "::xotcl::Attribute" == "[ $object info class ]" } continue
+    if { "::xox::Package" == "[ $object info class ]" } continue
+
+    puts "$object [ $object info class ] [ $object info vars ]"
+    incr count
+}
+
+puts $count

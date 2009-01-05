@@ -1,0 +1,21 @@
+#!/usr/bin/tclsh
+
+package require XOTcl
+
+package require xogrid
+
+proc bgerror { message } {
+
+    global errorInfo
+
+    puts "$message"
+}
+
+::xogrid::Server create aServer
+
+aServer addReceiver [ ::xogrid::ExecuteReceiver new ]
+
+aServer start 8000
+
+
+

@@ -1,0 +1,20 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+
+package require xounit
+package require xoexception
+
+if { [ llength $argv ] == 0 } {
+
+   puts "Usage: runCoverage PACKAGENAME \[PACKAGENAME\] ..."
+   puts "Example: runCoverage xox"
+   puts "Example: runCoverage xox xounit xoexception"
+
+   exit
+}
+
+eval ::xounit::RunCoverage new $argv
+

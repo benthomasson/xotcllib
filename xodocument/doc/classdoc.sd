@@ -1,0 +1,82 @@
+document "ClassDoc Documentation Language" {
+
+    section Introduction {
+
+        text {
+
+            ClassDoc Documentation Language is a domain specific language for documenting XOTcl
+            code in a very simple style.
+        }
+
+        text {
+
+            ClassDoc is available in your XOTcl via the [ code @@doc ] command on all XOTcl classes.  You will need to "package require xodocument" to use ClassDoc.
+        }
+
+        example Usage {
+
+            package require xodocument
+
+            Class YourClass -superclass ::xotcl::Object
+
+            YourClass @@doc YourClass {
+
+                Author: Ben Thomasson
+                Date: 1/1/2008
+
+                Purpose: To show how to use the @@doc command and the ClassDoc Documentation Language
+            }
+
+            YourClass @@doc aMethod {
+
+                Purpose: {
+
+                    ClassDoc interprets the commands in the body of the @@doc call.  This allows
+                    the documentation in the block to have more meaning than just plain text.
+
+                    ClassDoc commands either take all the rest of the words on the line or a block
+                    of text defined by curly brackets { }.
+
+                    The @@doc command arguments are the same as the older @doc command: a token and a block of documentation.
+                    Only the @@doc call runs the block of documentation through the ClassDoc interpreter.
+                }
+            }
+
+            YourClass instproc aMethod { } {
+
+                puts "Hello"
+            }
+        }
+    }
+
+    section "Calling ClassDoc from XOTcl" {
+
+        text {
+
+            ClassDoc commands are used inside the block of an [ code @@doc ] call. You will need to "package require xodocument"
+            to use ClassDoc.
+        }
+
+        commandList
+        commandReference ::xox::MetaData @@doc
+    }
+
+    section "ClassDoc Commands" {
+
+        text {
+
+            The following are the ClassDoc commands available inside the @@doc call.  These are not accessible outside of the @@doc command.
+        }
+
+        commandList
+        commandReference ::xodocument::ClassDocLanguage Author:
+        commandReference ::xodocument::ClassDocLanguage Date:
+        commandReference ::xodocument::ClassDocLanguage Purpose:
+        commandReference ::xodocument::ClassDocLanguage Arguments:
+        commandReference ::xodocument::ClassDocLanguage Returns:
+        commandReference ::xodocument::ClassDocLanguage Example:
+        commandReference ::xodocument::ClassDocLanguage Change:
+        commandReference ::xodocument::ClassDocLanguage See:
+        commandReference ::xodocument::ClassDocLanguage Tags:
+    }
+}

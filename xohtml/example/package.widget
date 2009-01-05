@@ -1,0 +1,12 @@
+
+defineWidget PackageDoc { package } { } {
+    div -class package {
+        a -name "$package"
+        h1 ' $package
+        ul foreach class [ ::xox::ObjectGraph findAllInstances ::xotcl::Class $package ] {
+            li ' $class
+        }
+    }
+}
+
+

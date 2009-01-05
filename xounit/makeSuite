@@ -1,0 +1,8 @@
+#!/bin/bash 
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@" 
+
+package require xounit
+
+eval ::xounit::XounitTemplates makeSuite 

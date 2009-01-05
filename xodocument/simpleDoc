@@ -1,0 +1,15 @@
+#!/bin/bash 
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@" 
+
+package require xodocument
+package require tdom
+
+if { [ llength $argv ] == 0 } {
+
+    puts "Usage: simpleDoc yourfile.sd"
+    exit
+}
+
+eval ::xodocument::SimpleDoc new $::argv

@@ -1,0 +1,16 @@
+document "Variable Example" {
+
+    qset author "Ben Thomasson"
+    qset department "NSITE"
+    qset team "NEAT"
+
+    section Example {
+
+        text {
+
+            $author in $team, $department has written and interesting language called SimpleDoc. It can be used
+            to create documentation for your Tcl code and to generate HTML in any format you like.
+        }
+
+    }
+}

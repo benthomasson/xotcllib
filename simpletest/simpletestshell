@@ -1,0 +1,48 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+if { [ llength $argv ] < 1 } {
+
+    puts "Usage: simpltestshell script_to_create"
+}
+
+package require simpletest
+
+set language [ ::simpletest::SimpleTestCase newLanguage ]
+set environment [ $language set environment ]
+
+
+set fileName [ lindex $argv 0 ]
+set doHistory [ lindex $argv 1 ]
+
+if { "$doHistory" == "" } { set doHistory 1 }
+
+if [ string match *.tcl $fileName ] {
+    set name [ string range $fileName 0 end-4 ]
+} else {
+    set name $fileName
+}
+
+if [ file exists $fileName ] {
+
+set shell [ ::simpletest::SimpleTestShell new \
+                -environment $environment \
+                -language $language \
+                -name $name \
+                -fileName $fileName ] 
+$shell installProc
+$shell writeHistory
+
+} else {
+
+set shell [ ::simpletest::SimpleTestShell new \
+                -environment $environment \
+                -language $language \
+                -name $name \
+                -fileName $fileName ] 
+$shell shell
+$shell writeHistory
+
+}

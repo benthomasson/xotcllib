@@ -1,0 +1,110 @@
+
+defineWidget ProcDoc { object procName } { } {
+    div -class procedure {
+        a -name "$procName"
+        pre ' $object proc $procName [ $object info nonposargs $procName ] [ $object info args $procName ] [ $object info body $procName ]
+    }
+}
+
+defineWidget ObjectDoc { object } { } {
+    div -class object {
+        h1 ' $object
+        h2 ' Variables
+        ul foreach var [ $object info vars  ] {
+            if { "$var" == "#" } { continue }
+            if { [ string match __* $var ] } { continue }
+            if [ $object array exists $var ] {
+                foreach index [ $object array names $var ] {
+                    li  {
+                        ' ${var}(${index}) : 
+                        , $object set ${var}(${index})
+                    }
+                }
+            } else {
+                li {
+                    ' $var : 
+                    , $object set $var
+                }
+            }
+        }
+        h2 ' Procedures
+        foreach procName [ lsort [ $object info procs ] ] {
+            a -href "#$procName" {
+                ' $procName 
+            }
+            ' " , "
+        }
+        ul foreach procName [ lsort [ $object info procs ] ] {
+            li useModel {
+                ProcDoc {
+                    object $object
+                    procName $procName
+                }
+            }
+            br
+        }
+    }
+}
+
+defineWidget MethodDoc { object procName } { } {
+    div -class procedure {
+        a -name "$procName"
+        pre ' $object instproc $procName [ $object info instnonposargs $procName ] [ $object info instargs $procName ] [ $object info instbody $procName ]
+    }
+}
+
+defineWidget ClassDoc { object } {
+    div -class object {
+        h1 ' $object
+        h2 ' Variables
+        ul foreach var [ $object info vars  ] {
+            if { "$var" == "#" } { continue }
+            if { [ string match __* $var ] } { continue }
+            if [ $object array exists $var ] {
+                foreach index [ $object array names $var ] {
+                    li  {
+                        ' ${var}(${index}) : 
+                        , $object set ${var}(${index})
+                    }
+                }
+            } else {
+                li {
+                    ' $var : 
+                    , $object set $var
+                }
+            }
+        }
+        h2 ' Methods
+        foreach procName [ lsort [ $object info instprocs ] ] {
+            a -href "#$procName" {
+                ' $procName 
+            }
+            ' " , "
+        }
+        ul foreach procName [ lsort [ $object info instprocs ] ] {
+            li useModel {
+                MethodDoc {
+                    object $object
+                    procName $procName
+                }
+            }
+            br
+        }
+        h2 ' Procedures
+        foreach procName [ lsort [ $object info procs ] ] {
+            a -href "#$procName" {
+                ' $procName 
+            }
+            ' " , "
+        }
+        ul foreach procName [ lsort [ $object info procs ] ] {
+            li useModel {
+                ProcDoc {
+                    object $object
+                    procName $procName
+                }
+            }
+            br
+        }
+    }
+}

@@ -1,0 +1,45 @@
+document "Your Document" {
+    
+    section "Introduction" {
+
+        text {
+
+            Place the text of your document in text blocks.
+        }
+
+    }
+
+    section "Getting Started" {
+
+        text {
+
+            You can have multiple text blocks in a section.
+        }
+
+        text {
+
+            You can also have multiple section blocks in a section.
+        }
+
+        section "Sub-section" {
+
+            text {
+
+                This is a sub-section.
+            }
+
+            example "Example Code" {
+
+                Example blocks
+            }
+
+            section "Sub-Sub-Section" {
+
+                text {
+
+                   Generated at: [ clock format [ clock seconds ] ] by $::env(USER)
+                }
+            }
+        }
+    }
+}

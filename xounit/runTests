@@ -1,0 +1,27 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+
+package require xounit
+
+if { [ llength $argv ] == 0 } {
+
+   puts "Usage: runTests PACKAGENAME \[PACKAGENAME\] ..."
+   puts "Example: runTests xox"
+   puts "Example: runTests xox xounit xoexception"
+
+   exit
+}
+
+catch {
+    package require xometrics
+    ::xometrics::metrics nosend 1
+}
+
+set runner [ eval ::xounit::RunTests new $argv ]
+
+exit [ $runner exitStatus ]
+
+

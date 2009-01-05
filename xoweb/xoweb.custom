@@ -1,0 +1,21 @@
+package require xoweb
+
+::xoweb::Restart installApplication ::myweb /myweb /restart
+::xoweb::CodeSearch installApplication ::myweb /myweb /search
+::xoweb::PackageManager installApplication ::myweb /myweb /package
+::xoweb::PackageInspector installApplication ::myweb /myweb /packageinspector
+::xoweb::ObjectInspector installApplication ::myweb /myweb /objectinspector
+::xoweb::ClassInspector installApplication ::myweb /myweb /classinspector
+::xoweb::ProcedureInspector installApplication ::myweb /myweb /procedure
+::xoweb::NamespaceInspector installApplication ::myweb /myweb /namespace
+::xoweb::XowebIndex installApplication ::myweb /myweb /index
+::xoweb::Sandbox installApplication ::myweb /myweb /sandbox
+::xoweb::UserInspector installApplication ::myweb /myweb /user
+::xoweb::JSTest installApplication ::myweb /myweb /jstest
+::xoweb::SampleApplication installApplication ::myweb /myweb /sample
+::xoweb::SampleAjaxApplication installApplication ::myweb /myweb /sampleajax
+::xoweb::TestRunner installApplication ::myweb /myweb /testrunner
+::xoweb::XodeWeb installApplication ::myweb /myweb /xode
+::xoweb::XoshellWeb installApplication ::myweb /myweb /xoshell
+
+

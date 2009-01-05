@@ -1,0 +1,90 @@
+#!/bin/bash 
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@" 
+
+package provide xox::test::TestProfiler 1.0
+
+package require XOTcl
+package require xounit 
+
+namespace eval ::xox::test {
+
+    namespace import -force ::xotcl::*
+
+    Class ProfilerTestClass
+
+    Class TestProfiler -superclass ::xounit::TestCase
+
+    TestProfiler instproc setUp {} {
+
+        catch { ::xox::Profiler clear }
+    }
+
+    TestProfiler instproc testExists {} {
+
+        my assertObject ::xox::Profiler
+        my assertFalse [ ::xox::Profiler exists profileCount ] 
+    }
+
+    TestProfiler instproc testFilter {} {
+
+        ::xox::Profiler add ::xox::test::ProfilerTestClass
+
+        set o [ ::xox::test::ProfilerTestClass new ]
+
+        #my assertHasProfile ::xotcl::Object init
+        #my assertHasProfile ::xotcl::Object configure
+        #my assertProfileEquals ::xotcl::Object init 1
+        #my assertProfileEquals ::xotcl::Object configure 1
+
+        ::xox::Profiler printReport
+    }
+
+    TestProfiler instproc testFilter2 {} {
+
+        ::xox::Profiler add ::xox::test::ProfilerTestClass
+
+        set o [ ::xox::test::ProfilerTestClass new ]
+
+        #my assertHasProfile ::xotcl::Object init
+        #my assertHasProfile ::xotcl::Object configure
+        #my assertProfileEquals ::xotcl::Object init 1
+        #my assertProfileEquals ::xotcl::Object configure 1
+
+        ::xox::Profiler printReport
+    }
+
+    TestProfiler instproc testFilter3 {} {
+
+        ::xox::Profiler add ::xox::test::ProfilerTestClass
+
+        set o [ ::xox::test::ProfilerTestClass new ]
+
+        $o set a 5
+
+        #my assertProfileEquals ::xotcl::Object init 1
+        #my assertProfileEquals ::xotcl::Object configure 1
+        #my assertProfileEquals ::xotcl::Object set 1
+
+        ::xox::Profiler printReport
+    }
+
+    TestProfiler instproc assertHasProfile { class method } {
+
+        my assert [ ::xox::Profiler hasProfile $class $method ] \
+            "No profile for $class $method"
+    }
+
+    TestProfiler instproc assertProfileEquals { class method amount} {
+
+        my assertHasProfile $class $method
+
+        my assertEquals [ ::xox::Profiler getProfile $class $method ] \
+            $amount
+    }
+}
+
+set runner [ ::xounit::TestRunnerTextUI new ]
+$runner runTests ::xox::test::TestProfiler
+

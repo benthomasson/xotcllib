@@ -1,0 +1,18 @@
+
+package require tclisp
+
+namespace import -force ::tclisp::*
+
+set value 0
+
+puts [ time {
+    incr value
+} 100000 ]
+
+set value 0
+
+puts [ time {
+    ( incr value )
+} 100000 ]
+
+

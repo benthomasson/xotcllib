@@ -1,0 +1,36 @@
+set packages {abc xox xounit xoexception xodocument xohtml xodsl}
+defineWidget PackageLink { name } { } {
+        li { 
+            a -href "${name}.tests.html" ' $name 
+        }
+}
+Page {
+    fileName docs/tests.html
+    content {
+            html { 
+              style -type "text/css" ' {
+
+                body {
+                    font-family: Helvetica,Arial,Sans-Serif;
+                }
+              }
+
+
+            h1 ' Tests By Package
+            ul {
+                foreach package $packages {
+                    new PackageLink -name $package
+                }
+            }
+
+        }
+    }
+}
+foreach package $packages {
+    Page {
+        fileName docs/$package.tests.html
+        content {
+            new RunTests -package $package
+        }
+    }
+}

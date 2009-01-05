@@ -1,0 +1,22 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+package require xounit
+package require xoexception
+
+if { [ llength $argv ] == 0 } {
+
+   puts "Usage: captureEnvironment environment.xml"
+
+   exit
+}
+
+set app [ ::xounit::Application new ]
+set environment [  $app createNewChild ::xox::Environment ]
+$environment captureTclLibPath
+$app unset formatterClass
+$app unset name
+$app saveApplication [ lindex $argv 0 ]
+

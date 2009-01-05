@@ -1,0 +1,477 @@
+
+package require simpletest
+
+document "SimpleTest" {
+
+    section "Introduction" {
+
+        text {
+
+            SimpleTest is a unit testing package for Tcl or XOTcl code.  It allows you to quickly create and 
+            run repeatable unit tests.
+        }
+
+        text {
+
+            SimpleTests declare what to test and allow the underlying code to check conditions and keep up with
+            results.  You only need to declare what to test.  SimpleTest does the rest.
+        }
+    }
+
+    section "Requirements" {
+
+        text {
+
+            You will need XOTcl and XOTclLib to use SimpleTest.
+        }
+
+        example "Testing Requirements" {
+
+            > tclsh
+            % package require XOTcl
+            1.5.6
+            % package require simpletest
+            1.0
+        }
+
+        text {
+
+            If both of these work then you have the requirements. 
+        }
+    }
+
+    section "Getting Started" {
+
+        text {
+
+            Getting started with SimpleTest is as easy as copy-and-modifying this example.
+        }
+
+        example "A Simple Test" {
+
+            package require simpletest
+
+            ::simpletest::test YourTest {
+
+                assertEquals [ expr 1 + 1 ] 2
+            }
+
+            ::simpletest::runTests
+        }
+
+        example "Running A Simple Test" {
+
+           > tclsh example.tcl
+
+           YourTest
+           Pass: YourTest test 
+
+           All Passed: 1
+           TestXYZ
+           Pass: TestXYZ test 
+
+           All Passed: 1
+           =================
+           Tests: 2
+           Errors: 0
+           Failures: 0
+           Passes: 2
+        }
+
+        text {
+
+            Use the commands and tutorials below to build your own tests.
+        }
+    }
+
+    section "Tutorials" {
+
+        section "How to Test Your Code With SimpleTests" {
+
+            text {
+
+                You can insert SimpleTests right next to the Tcl procedures or XOTcl methods you are testing.  
+            }
+
+            example "Interleaved SimpleTests" {
+example.tcl:
+
+               
+package require simpletest
+
+
+proc yourCode { x y } { 
+
+    return [ expr $x + $y ]
+}
+
+::simpletest::test TestYourCode {
+
+    assertEquals [ yourCode 1 1 ] 2 
+    assertEquals [ yourCode 2 3 ] 5 
+    assertEquals [ yourCode 100 -5 ] 95 
+
+    assertNotEquals [ yourCode 2 2 ] 5 
+
+    assertError {
+
+        yourCode 1
+    }
+
+    assertNoError {
+
+        debug [ yourCode 0 0 ]
+    }
+}
+
+::simpletest::runTests
+
+            }
+
+            example "Running Your SimpleTests" {
+
+
+>tclsh example.tcl
+
+TestYourCode
+Pass: TestYourCode test 
+
+All Passed: 1
+=================
+Tests: 1
+Errors: 0
+Failures: 0
+Passes: 1
+
+}
+        }
+
+        section "How to Write SimpleTests in a Namespace/Package" {
+
+            text { 
+
+                SimpleTests can be declared in a Tcl namespace as they would in the global namespace.
+            }
+
+            example "SimpleTests in a Namespace" {
+
+nsexample.tcl
+
+package require simpletest
+
+namespace eval ::yournamespace {
+
+
+proc yourCode { x y } { 
+
+    return [ expr $x + $y ]
+}
+
+::simpletest::test TestYourCode {
+
+    assertEquals [ ::yournamespace::yourCode 1 1 ] 2
+    assertEquals [ ::yournamespace::yourCode 2 3 ] 5
+    assertEquals [ ::yournamespace::yourCode 100 -5 ] 95
+
+    assertNotEquals [ ::yournamespace::yourCode 2 2 ] 5
+
+    assertError {
+
+        ::yournamespace::yourCode 1
+    }
+
+    assertNoError {
+
+        debug [ ::yournamespace::yourCode 0 0 ]
+    }
+}
+
+}
+
+::simpletest::runTests ::yournamespace
+
+            }
+
+            text {
+
+                Notice that you must prefix your procedures with the full namespace name where your procedure is declared. 
+            }
+
+            example "Running SimpleTests In a Namespace" {
+
+> tclsh nsexample.tcl
+                
+TestYourCode
+Pass: TestYourCode test 
+
+All Passed: 1
+=================
+Tests: 1
+Errors: 0
+Failures: 0
+Passes: 1
+
+            }
+        }
+
+        section "How to Run SimpleTests from the Command Line" {
+
+            text { 
+
+                Instead of using "::simpletest::runTests" to run your SimpleTests you can declare SimpleTests 
+                in your code and run them with the "runSimpleTest" command line tool.   This requires that you
+                load your code using Tcl packages.
+            }
+
+            example "Running SimpleTests with runSimpleTest" {
+
+                > runSimpleTest simpletest
+
+                TestXYZ
+                Pass: TestXYZ test 
+
+                All Passed: 1
+                =================
+                Tests: 1
+                Errors: 0
+                Failures: 0
+                Passes: 1
+            }
+
+            text {
+                In this example, "simpletest" is a package that is loadable with "package require simpletest"  and the
+                SimpleTests are declared in a namespace with name "::simpletest".  
+            }
+
+            text {
+
+                SimpleTest assumes a naming convention where packages and namespaces are related.  The package name
+                is the same as the namespace name except it is missing the leading "::"  This is a good practice in Tcl.
+            }
+
+            text {
+
+                If you declare your SimpleTests outside of a namespace you can run them by adding "::" to the end of the 
+                runSimpleTest arguments
+            }
+
+            example "Running SimpleTests in the Global Namespace" {
+
+
+                >runSimpleTest simpletest ::
+
+                TestXYZ
+                Pass: TestXYZ test 
+
+                All Passed: 1
+                =================
+                Tests: 1
+                Errors: 0
+                Failures: 0
+                Passes: 1
+            }
+       }
+
+       section "How to Run SimpleTests with Xounit Test Cases" {
+
+           text {
+
+               SimpleTests that are defined with the ::simpletest::test procedure are fully compatible with the Xounit 
+               test runner.   However in order to run SimpleTests with Xounit the SimpleTest must be declared in a
+               test namespace such as:  ::yourpackage::test.
+           }
+
+           example "Declaring SimpleTests To Be Runnable by Xounit" {
+
+               package require simpletest
+
+               namespace eval ::yourpackage::test {
+
+               ::simpletest::test YourTest {
+
+                   assertEquals [ expr 1 + 1 ] 2
+               }
+
+               }
+           }
+
+           text {
+
+               Once the SimpleTest is declared in a ::X::test namespace then it is runnable with Xounit's "runTests" and
+               "runTest".
+           }
+
+           example "Running SimpleTests With Xounit's runTests" {
+
+               >runTests yourpackage
+
+               YourTest
+               Pass: YourTest test 
+
+               All Passed: 1
+               =================
+               Tests: 1
+               Errors: 0
+               Failures: 0
+               Passes: 1
+           }
+
+           example "Running SimpleTests With Xounit's runTest" {
+
+               >runTest yourpackage YourTest
+
+               YourTest
+               Pass: YourTest test 
+
+               All Passed: 1
+               =================
+               Tests: 1
+               Errors: 0
+               Failures: 0
+               Passes: 1
+           }
+       
+       }
+    }
+
+    section "SimpleTest Script Commands" {
+
+        text {
+
+            These commands are available in the SimpleTest script block.  They are not accessible outside the SimpleTest script block.
+        }
+
+        commandList
+
+        commandReference ::xounit::Assert assert
+        commandReference ::xounit::Assert assertFalse
+        commandReference ::xounit::Assert assertEquals
+        commandReference ::xounit::Assert assertNotEquals
+        commandReference ::xounit::Assert assertFailure
+        commandReference ::xounit::Assert assertError
+        commandReference ::xounit::Assert assertNoFailure
+        commandReference ::xounit::Assert assertNoError
+    }
+
+    section "SimpleTest Executable Script" {
+
+        text {
+
+            To run SimpleTest tests from the command line use runSimpleTest.
+        }
+
+        commandList
+
+        commandReference ::simpletest::RunSimpleTest init 
+    }
+
+    section "SimpleTest Procedures" {
+
+        text {
+
+            To access SimpleTest commands in Tcl use the "test" procedure.  To run SimpleTests in Tcl use the "runTests" procedure.
+        }
+
+        commandList
+
+        objectCommandReference ::simpletest test
+        objectCommandReference ::simpletest runTests
+        objectCommandReference ::simpletest runTest
+    }
+
+    section "SimpleTest Shell" {
+
+        text {
+
+            SimpleTest includes an interactive shell that is accessible via the "simpletestshell" unix command. This allows
+            the user to write SimpleTests interactively using tab completion for commands and question mark to bring up documentation.
+        }
+
+        example "Starting SimpleTest Shell" {
+
+            >simpletestshell YourTest
+        }
+
+        example "Using SimpleTest Shell" {
+
+            >simpletestshell YourTest
+            YourTest> package require xyz
+            YourTest> assertEquals [ ::xyz::sum 1 2 ] 3
+            YourTest> exit
+            Wrote YourTest.1203474068.tcl
+        }
+
+        example "Generated SimpleTest" {
+
+#!/bin/bash
+#\   
+ulimit -n 128 ;\   
+exec tclsh "$0" "$@"
+
+package require simpletest
+::simpletest::test YourTest {
+    package require xyz
+    assertEquals [ ::xyz::sum 1 2 ] 3
+}
+::simpletest::runTest YourTest
+
+        }
+
+        example "Running Generated SimpleTests" {
+
+            >./YourTest.1203474068.tcl
+            YourTest
+            Pass: YourTest test 
+
+            All Passed: 1
+            =================
+            Tests: 1
+            Errors: 0
+            Failures: 0
+            Passes: 1
+        }
+
+        text {
+
+            SimpleTest Shell includes tab completion for simple test commands.  Just type part of the command and press "tab" on the keyboard.  If one
+            command matches it will finish the command.  If many commands match it will show a list of available commands.
+        }
+
+        example "Tab Completion" {
+
+            YourTest>asser
+            assert, assertClass, assertDoNotFindIn, assertEmpty, assertEquals, assertEqualsByLine,
+            assertEqualsTrim, assertError, assertExists, assertExistsObject, assertExistsValue,
+            assertFailure, assertFalse, assertFindIn, assertInfoExists, assertInteger, assertIntegerInRange,
+            assertListEquals, assertListEqualsTrim, assertListLengthEquals, assertNoError, assertNoFailure,
+            assertNotEquals, assertNotEqualsTrim, assertNotExists, assertObject, assertObjectInList,
+            assertRegex, assertRunTest, assertSetEquals, assertTestFailed, assertTestPassed, assertTestRan,
+            assertTrue, assertValue, assertValueInList
+            YourTest>assert
+        }
+
+        text {
+            SimpleTest Shell includes in-shell documentation that is available by pressing "?" after a command. 
+        }
+
+        example "Question-Mark Help" {
+
+    YourTest>set ?
+    ::xotcl::Object
+    =============================
+
+
+        Read and write variables.
+        
+        set varName ?value?
+
+        Example:
+
+        set r [expr rand()]
+
+
+    YourTest>set 
+
+        }
+    }
+}

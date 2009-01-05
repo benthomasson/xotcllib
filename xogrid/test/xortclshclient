@@ -1,0 +1,37 @@
+#!/usr/bin/tclsh
+
+package require XOTcl
+
+package require xogrid
+package require xogrid::RemoteInterp
+
+proc bgerror { message } {
+
+    global errorInfo
+
+    puts "$message"
+}
+
+::xogrid::RemoteInterp create anInterp localhost 8000
+
+set script ""
+
+fconfigure stdin -blocking 1
+
+while { [ anInterp isConnected ] } {
+
+    append script [ gets stdin ]
+    append script "\n"
+
+    #puts "Script: $script"
+
+    if [ info complete $script ] {
+
+        #puts "Complete Script: $script"
+
+        puts [ anInterp remoteEval $script ]
+
+        set script ""
+    } 
+}
+

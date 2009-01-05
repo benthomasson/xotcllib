@@ -1,0 +1,15 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec wish "$0" "$@"
+
+package require xoide
+
+set tclShell [ ::xoide::XOTclShell new ]
+$tclShell show
+
+if { [ llength $argv ] == 1 } {
+
+    $tclShell openFile [ lindex $argv 0 ]
+}
+

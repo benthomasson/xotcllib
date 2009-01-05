@@ -1,0 +1,5 @@
+set sum 0
+foreach x {1 2 3 4 5} {
+    incr sum $x
+}
+exit

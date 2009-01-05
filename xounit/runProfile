@@ -1,0 +1,21 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+
+package require xounit
+package require xoexception
+
+if { [ llength $argv ] < 2 } {
+
+   puts "Usage: runProfile PROFILECLASS PACKAGENAME \[PACKAGENAME\] ..."
+   puts "Example: runProfile ::xounit::Assert xounit"
+   puts "Example: runProfile ::xounit::Assert xounit xox xoexception"
+
+   exit
+}
+
+eval ::xounit::RunProfile new $argv
+
+

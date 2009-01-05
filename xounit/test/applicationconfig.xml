@@ -1,0 +1,11 @@
+<app>
+    <::xox::Environment>
+        <tclLibPath>
+        XYZ145
+        </tclLibPath>
+        <packages>
+        abc
+        </packages>
+    </::xox::Environment>
+    <::abc::ABCD/>
+</app>

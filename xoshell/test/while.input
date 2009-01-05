@@ -1,0 +1,8 @@
+set sum 0
+set i 0
+while { $i < 10 } {
+    puts $sum
+    incr sum $i
+    incr i
+}
+exit

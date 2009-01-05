@@ -1,0 +1,11 @@
+html {
+    head {
+        title ' Hello World In HtmlGenerationLanguage
+    }
+    body {
+        h1 ' Hello World
+        for { set i 1 } { $i < 7 } { incr i } {
+            h2 ' $i Hello $::env(USER)
+        }
+    }
+}

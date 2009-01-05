@@ -1,0 +1,20 @@
+BODY { 
+    padding: 3em 3em 30em 3em
+}
+.example { border: thin solid blue;
+background-color: #CCC;
+padding: 1em 2em;
+font-family: courier, serif
+}
+.index { border: thin solid red;
+padding: 0em 2em;
+}
+.comment {
+        color: blue
+}
+.return {
+        color: purple
+}
+.error {
+        color: red
+}

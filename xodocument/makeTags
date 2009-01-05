@@ -1,0 +1,71 @@
+#!/bin/bash 
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@" 
+
+package require xox
+package require xodocument
+
+set tags ""
+set root [ pwd ]
+
+foreach package $argv {
+
+    package require $package
+    foreach class [ ::xox::ObjectGraph findAllInstances ::xotcl::Class ] {
+
+        if { ! [ string match ::${package}::* $class ] } continue
+
+        set file [ file join [ $package packagePath ] [ ::xox::Package getClassFile $class ] ]
+        set className [ namespace tail $class ]
+
+        if [ string match ${root}* $file ] {
+
+            set file [ string range $file [ string length $root ] end ] 
+
+            if [ string match /* $file ] {
+
+                set file [ string range $file 1 end ]
+            }
+        }
+
+        if { ! [ file exists $file ] } { 
+
+            #puts "Not found: $file "
+            continue 
+        }
+
+        lappend tags "$className\t$file\t/$className/"
+
+        foreach instproc [ $class info instprocs ] {
+
+            lappend tags "$instproc\t$file\t/$className instproc $instproc/"
+        }
+
+        foreach proc [ $class info procs ] {
+
+            lappend tags "$proc\t$file\t/$className proc $proc/"
+        }
+    }
+}
+
+proc compareTags { x y } {
+
+    return [ string compare [ lindex $x 0 ] [ lindex $y 0 ] ]
+}
+
+set tags [ lsort -command compareTags $tags ]
+
+
+::xox::withOpenFile tags w file {
+
+    foreach tag $tags {
+
+        puts $file $tag
+    }
+}
+
+puts "Wrote tags in current directory"  
+puts "Please add this to your .vimrc:   :set tags=tags;/"
+
+

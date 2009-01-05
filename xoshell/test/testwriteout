@@ -1,0 +1,20 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+
+package require xox
+package require xotcl
+
+::xotcl::Object create ::xoshell::test::testwrite
+    
+
+xoshell::test::testwrite objectEval {
+ 
+puts hi
+set a 5
+my set b 6
+    
+}
+    

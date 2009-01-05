@@ -1,0 +1,22 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+package require xox
+
+if { [ llength $argv ] == 0 } {
+
+    puts "[ info script ] overwrites an existing package with generate code"
+    puts "This script is not nice."
+    puts "You better be using CVS and unit tests"
+
+    puts "Usage: [ info script ] your_package_name"
+
+    exit
+}
+
+package require [ ::xox::Package getMainPackage $argv ]
+package require [ ::xox::Package getMainPackage $argv ]::test
+
+[ ::xox::Template new ] buildClass $argv

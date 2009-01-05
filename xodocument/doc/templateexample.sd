@@ -1,0 +1,11 @@
+
+
+template triple {x y z}
+bodyTemplate paragraph {}
+
+document "Template Example" {
+
+    paragraph {
+
+    }
+}

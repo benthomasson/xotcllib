@@ -1,0 +1,16 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+package require xode
+
+set shell [ ::xode::XodeShell new ]
+if { "$argv" == "" } {
+    $shell shell
+} else {
+    $shell done 1
+    puts [ $shell processCommand $argv ]
+}
+
+

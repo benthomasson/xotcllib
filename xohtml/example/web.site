@@ -1,0 +1,8 @@
+Page {
+    fileName web.html
+    html { ' Hi }
+}
+Page {
+    fileName web2.html
+    html { ' Hello }
+}

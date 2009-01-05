@@ -1,0 +1,33 @@
+
+package require simpletest
+
+namespace eval ::yournamespace {
+
+
+proc yourCode { x y } {
+
+    return [ expr $x + $y ]
+}
+
+::simpletest::test TestYourCode {
+
+    assertEquals [ ::yournamespace::yourCode 1 1 ] 2
+    assertEquals [ ::yournamespace::yourCode 2 3 ] 5
+    assertEquals [ ::yournamespace::yourCode 100 -5 ] 95
+
+    assertNotEquals [ ::yournamespace::yourCode 2 2 ] 5
+
+    assertError {
+
+        ::yournamespace::yourCode 1 
+    }
+
+    assertNoError {
+
+        debug [ ::yournamespace::yourCode 0 0 ]
+    }
+}
+
+}
+
+::simpletest::runTests ::yournamespace

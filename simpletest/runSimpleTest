@@ -1,0 +1,11 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+
+package require simpletest
+
+eval ::simpletest::RunSimpleTest new $argv
+
+

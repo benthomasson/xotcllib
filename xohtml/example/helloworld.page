@@ -1,0 +1,10 @@
+source helloworld.widget
+html { 
+    head {
+        title ' "A page"
+        style ' ""
+    }
+    body {
+            new HelloWorld -name Ben 
+    }
+}

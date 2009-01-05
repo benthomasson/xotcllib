@@ -1,0 +1,22 @@
+#!/bin/bash
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@"
+
+package require xox
+
+if { [ llength $argv ] == 0 } {
+
+    puts "[ info script ] overwrites existing unit tests with generated code"
+    puts "It may cause some problems for existing unit tests"
+    puts "It is supposed to preserve existing methods in unit tests, but who knows."
+    puts "You better be using CVS"
+
+    puts "Usage: [ info script ] your_package_name"
+
+    exit
+}
+
+package require $argv
+
+[ ::xox::Template new ] buildTests ::${argv}

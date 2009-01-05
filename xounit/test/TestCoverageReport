@@ -1,0 +1,121 @@
+#!/bin/bash 
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@" 
+
+
+package require XOTcl
+package require xounit 
+package require xounit::test 
+
+namespace eval ::xounit::test {
+
+    namespace import -force ::xotcl::*
+
+    Class TestCoverageReport -superclass ::xounit::TestCase
+
+    TestCoverageReport instproc setUp {} {
+
+        my instvar reporter
+
+        ::xounit::test::Class CoverageTestClass
+
+        ::xounit::test::CoverageTestClass instproc testMethod { } {
+
+        }
+
+        set reporter [ ::xounit::CoverageReport new ]
+
+        $reporter clear
+        $reporter start
+    }
+
+    TestCoverageReport instproc notest {} {
+
+        my instvar reporter
+
+        $reporter reportClass ::xounit::test::CoverageTestClass
+    }
+
+    TestCoverageReport instproc notest2 {} {
+
+        my instvar reporter
+
+        $reporter add ::xounit::test::CoverageTestClass
+
+        my assert [ ::xounit::Coverage exists classes ]
+
+        my assert [ ::xounit::Coverage isWatching ::xounit::test::CoverageTestClass ] "No coverage"
+
+        set instance [ ::xounit::test::CoverageTestClass new ]
+
+        $instance testMethod
+        $reporter reportClass ::xounit::test::CoverageTestClass
+    }
+
+    TestCoverageReport instproc notest3 {} {
+
+        my instvar reporter
+
+        $reporter addPackage xounit
+
+        my assert [ ::xounit::Coverage exists classes ] "No classes"
+
+        my assertIsWatching ::xounit::test::CoverageTestClass
+        my assertIsWatching ::xounit::Assert
+        my assertIsWatching ::xounit::TestCase
+        my assertIsWatching ::xounit::TestFailure
+
+        set instance [ ::xounit::test::CoverageTestClass new ]
+
+        $instance testMethod
+        $reporter reportPackage xounit
+    }
+
+    TestCoverageReport instproc testTestAssert {} {
+
+        my instvar reporter
+
+        $reporter addPackage xounit
+        $reporter addPackage xounit::test
+
+        my assert [ ::xounit::Coverage exists classes ] "No classes"
+
+        my assertIsWatching ::xounit::test::CoverageTestClass
+        my assertIsWatching ::xounit::Assert
+        my assertIsWatching ::xounit::TestCase
+        my assertIsWatching ::xounit::TestFailure
+        my assertIsWatching ::xounit::test::TestAssert
+
+        set test [ ::xounit::test::TestAssert new ]
+
+        $test testAssertExists2
+
+        my assertHasCoverage ::xounit::Assert assertNotExists
+        my assertHasCoverage ::xounit::Assert assertExists
+
+        $reporter reportPackage xounit
+    }
+
+    TestCoverageReport instproc assertHasCoverage { class method } {
+
+        my assert [ ::xounit::Coverage hasCoverage $class $method ] \
+            "No coverage for $class $method"
+    }
+
+    TestCoverageReport instproc assertIsWatching { class } {
+
+        my assert [ Object isclass $class ] \
+            "$class is not a class"
+
+        my assert [ ::xounit::Coverage isWatching $class ] \
+            "Not watching for $class"
+
+        my assertNotEquals [ lsearch [ $class info instfilter ] traceCoverage ] -1 \
+            "Not watching filter for $class"
+    }
+}
+
+set runner [ ::xounit::TestRunnerTextUI new ]
+$runner runTests ::xounit::test::TestCoverageReport
+

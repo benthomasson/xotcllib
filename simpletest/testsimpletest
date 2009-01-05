@@ -1,0 +1,15 @@
+
+package require simpletest
+
+::simpletest::test TestABC {
+
+    puts hi
+
+    assert 1
+
+    assertEquals a a
+}
+
+::simpletest::runTests
+
+

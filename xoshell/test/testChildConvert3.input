@@ -1,0 +1,6 @@
+Node
+set z -1
+set y -2 
+set x -3
+exit
+exit

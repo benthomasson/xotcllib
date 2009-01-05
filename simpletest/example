@@ -1,0 +1,29 @@
+
+package require simpletest
+
+
+proc yourCode { x y } {
+
+    return [ expr $x + $y ]
+}
+
+::simpletest::test TestYourCode {
+
+    assertEquals [ yourCode 1 1 ] 2
+    assertEquals [ yourCode 2 3 ] 5
+    assertEquals [ yourCode 100 -5 ] 95
+
+    assertNotEquals [ yourCode 2 2 ] 5
+
+    assertError {
+
+        yourCode 1 
+    }
+
+    assertNoError {
+
+        debug [ yourCode 0 0 ]
+    }
+}
+
+::simpletest::runTests 

@@ -1,0 +1,61 @@
+package require xohtml
+package require xoweb
+defineWidget PackageLink { name } { } {
+        li { 
+            a -href "${name}/${name}.docs.html" ' $name 
+        }
+}
+defineWidget LanguageLink { name } { } {
+        li { 
+            a -href "[ namespace tail $name ].docs.html" ' [ namespace tail $name ]
+        }
+}
+Page {
+    fileName docs/web.html
+    content {
+            html { 
+            new XohtmlCss 
+            div -class object {
+                h1 ' Xohtml and Xoweb Docs
+                h2 ' Package Docs
+                ul foreach package {xohtml xoweb} {
+                        new PackageLink -name $package
+                }
+                h2 ' Language Docs 
+                ul foreach language {::xohtml::HtmlGenerationLanguage ::xohtml::WidgetLibraryLanguage } {
+                    new LanguageLink -name $language
+                }
+                h2 ' HTML Widget Docs
+                ul {
+                    foreach widget [ lsort [ ::xohtml::SimpleWidget info subclass ] ] {
+                        set widgetName [ namespace tail $widget ]
+                        li a -href "widget/$widgetName.html" ' $widgetName
+                    }
+                }
+                h2 ' Ajax Widget Docs
+                ul foreach widget [ lsort [ ::xoweb::AjaxWidget info subclass ] ] {
+                        set widgetName [ namespace tail $widget ]
+                        li ' $widgetName
+                }
+                h2 ' Web Application Docs
+                ul foreach application [ lsort [ ::xox::ObjectGraph findAllSubClasses ::xoweb::Application ] ] {
+                    li ' $application
+                }
+            }
+        }
+    }
+}
+foreach widget [ lsort [ ::xohtml::SimpleWidget info subclass ] ] {
+    set widgetName [ namespace tail $widget ]
+    Page {
+        fileName docs/widget/$widgetName.html
+        content {
+            html {
+                new XohtmlCss -width 800
+                div -class object {
+                    new SimpleWidgetDoc -widget $widget
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,2 @@
+set realm "xoweb"
+set callback ::xoweb::checkAuthentication

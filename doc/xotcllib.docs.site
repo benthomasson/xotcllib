@@ -1,0 +1,76 @@
+set packages {xotcl xox xounit xoexception xodocument xodsl xohtml xoweb}
+#set packages {xoweb}
+defineWidget PackageLink { name } { } {
+        li { 
+            a -href "${name}/${name}.docs.html" ' $name 
+        }
+}
+Page {
+    fileName docs/docs.html
+    content {
+            html { 
+              new XohtmlCss 
+            div -class object {
+                h1 ' Docs By Package
+                ul {
+                    foreach package $packages {
+                        new PackageLink -name $package
+                    }
+                }
+            }
+        }
+    }
+}
+foreach package $packages {
+    package require $package
+    Page {
+        fileName docs/${package}/${package}.docs.html
+        content {
+            html {
+                head title ' $package
+                body {
+                    new XohtmlCss
+                    div -class object {
+                        new PackageDoc -package $package
+                    }
+                }
+            }
+        }
+    }
+    
+    foreach class [ ::xox::ObjectGraph findAllInstances ::xotcl::Class ::${package} ] {
+        Page {
+            fileName docs/$package/[ string map {:: __ } $class.docs.html ] 
+            content {
+                html {
+                    head title ' $class
+                    body {
+                        new XohtmlCss -width 80%
+                        new ClassDoc -object $class
+                    }
+                }
+            }
+        }
+    }
+    
+    foreach object [ ::xox::ObjectGraph findAllInstances ::xotcl::Object ::${package} ] {
+       if [ $object hasclass ::xotcl::Class ] { continue }
+       if [ $object hasclass ::xotcl::Attribute ] { continue }
+       if { "slot" == "[ namespace tail $object ]" } { continue }
+       if { [ string match ::xotcl::__* $object ] } { continue }
+        Page {
+            fileName docs/$package/[ string map {:: __ } $object.docs.html ] 
+            content {
+                html {
+                    head title ' $object
+                    body {
+                        new XohtmlCss -width 80%
+                        new ObjectDoc -object $object
+                    }
+                }
+            }
+        }
+    }
+}
+
+

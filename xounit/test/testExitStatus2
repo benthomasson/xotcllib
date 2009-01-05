@@ -1,0 +1,6 @@
+
+package require xounit
+
+set app [ ::xounit::Application new -exitStatus 1 ]
+
+exit [ $app exitStatus ]

@@ -1,0 +1,28 @@
+<!-- Created at Wed Jun 13 13:07:30 EDT 2007 by bthomass -->
+<testsuite package="server::test">
+    <name>server Unit Tests</name>
+    <location> /var/www/html/server/</location>
+    <webPath> http://rtp-xdm-001/server/ </webPath>
+    <title> server Continuous Testing </title>
+    <url> http://xotcllib.sourceforge.net </url>
+    <packages> server </packages>
+    <times> -1 </times>
+    <delay> 30 </delay>
+    <::server::test::TestWidget/>
+    <::server::test::TestSaveManager/>
+    <::server::test::TestReload/>
+    <::server::test::TestApplication/>
+    <::server::test::TestIndexApplication/>
+    <::server::test::TestMockResponse/>
+    <::server::test::TestTestableServer/>
+    <::server::test::TestGameTest/>
+    <::server::test::TestJSTest/>
+    <::server::test::TestTclConsole/>
+    <::server::test::TestTclSpy/>
+    <::server::test::TestCodeManagement/>
+    <::server::test::TestAuthentication/>
+    <::server::test::TestPackageManagement/>
+    <::server::test::TestUserAuthentication/>
+    <::server::test::Testbase64/>
+</testsuite>
+

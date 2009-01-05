@@ -1,0 +1,103 @@
+#!/bin/bash 
+#\
+ulimit -n 128 ;\
+exec tclsh "$0" "$@" 
+
+
+package require XOTcl
+package require xounit 
+
+namespace eval ::xounit::test {
+
+    namespace import -force ::xotcl::*
+
+    Class CoverageTestClass
+
+    Class TestCoverage -superclass ::xounit::TestCase
+
+    TestCoverage instproc setUp {} {
+
+        catch { ::xounit::Coverage clear }
+        ::xounit::Coverage set record 0
+    }
+
+    TestCoverage instproc testExists {} {
+
+        my assertObject ::xounit::Coverage
+        my assertEquals [ ::xounit::Coverage set record ] 0 
+        my assertFalse [ ::xounit::Coverage exists coverageCount ] 
+        my assertFalse [ ::xounit::Coverage exists classes ] 
+    }
+
+    TestCoverage instproc testRecordCoverageOff {} {
+
+        ::xounit::Coverage recordCoverage Object set
+
+        my assertEquals [ ::xounit::Coverage set record ] 0 
+        my assertFalse [ ::xounit::Coverage exists coverageCount ] 
+        my assertFalse [ ::xounit::Coverage exists classes ] 
+    }
+
+    TestCoverage instproc testRecordCoverageOn {} {
+
+        ::xounit::Coverage set record 1
+
+        ::xounit::Coverage recordCoverage Object set
+
+        my assertEquals [ ::xounit::Coverage set record ] 1
+        my assert [ ::xounit::Coverage exists coverageCount ] 
+        my assertFalse [ ::xounit::Coverage exists classes ] 
+
+        my assertEquals [ ::xounit::Coverage set "coverageCount(Object set)" ] 1
+    }
+
+    TestCoverage instproc testFilter {} {
+
+        ::xounit::Coverage set record 1
+
+        ::xounit::Coverage add ::xounit::test::CoverageTestClass
+
+        set o [ ::xounit::test::CoverageTestClass new ]
+        
+        #puts [ ::xounit::Coverage array get coverageCount ]
+
+        my assertEquals [ ::xounit::Coverage set "coverageCount(::xotcl::Object init)" ] 1
+        my assertEquals [ ::xounit::Coverage set "coverageCount(::xotcl::Object configure)" ] 1
+
+        my assert [ ::xounit::Coverage hasCoverage ::xotcl::Object init ]
+        my assert [ ::xounit::Coverage hasCoverage ::xotcl::Object configure ]
+        my assert [ ::xounit::Coverage exists classes ] 
+        my assertEquals [ ::xounit::Coverage set classes ] "::xounit::test::CoverageTestClass"
+    }
+
+    TestCoverage instproc testFilter2 {} {
+
+        ::xounit::Coverage set record 1
+
+        ::xounit::Coverage add ::xounit::test::CoverageTestClass
+
+        set o [ ::xounit::test::CoverageTestClass new ]
+
+        $o set a 5
+        $o unset a 
+        
+       # puts [ ::xounit::Coverage array get coverageCount ]
+
+        my assertEquals [ ::xounit::Coverage set "coverageCount(::xotcl::Object set)" ] 1
+        my assertEquals [ ::xounit::Coverage set "coverageCount(::xotcl::Object unset)" ] 1
+        my assertEquals [ ::xounit::Coverage set "coverageCount(::xotcl::Object init)" ] 1
+        my assertEquals [ ::xounit::Coverage set "coverageCount(::xotcl::Object init)" ] 1
+        my assertEquals [ ::xounit::Coverage set "coverageCount(::xotcl::Object configure)" ] 1
+
+        my assert [ ::xounit::Coverage hasCoverage ::xotcl::Object set ] 
+        my assert [ ::xounit::Coverage hasCoverage ::xotcl::Object unset ] 
+        my assert [ ::xounit::Coverage hasCoverage ::xotcl::Object init ] 
+        my assert [ ::xounit::Coverage hasCoverage ::xotcl::Object configure ] 
+        my assert [ ::xounit::Coverage exists classes ] 
+        my assertEquals [ ::xounit::Coverage set classes ] "::xounit::test::CoverageTestClass"
+    }
+}
+
+set runner [ ::xounit::TestRunnerTextUI new ]
+$runner runTests ::xounit::test::TestCoverage
+
