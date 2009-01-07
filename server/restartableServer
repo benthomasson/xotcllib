@@ -1,8 +1,0 @@
-#!/bin/tcsh 
-
-
-while ( 1 ) 
-    tclsh startServer
-end
-
-    

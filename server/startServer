@@ -1,8 +1,0 @@
-#!/bin/bash
-#\
-ulimit -n 128 ;\
-exec tclsh "$0" "$@"
-
-package require server
-
-[ eval ::server::WebServer getInstance $argv ] process

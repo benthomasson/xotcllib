@@ -1,7 +1,0 @@
-<web>
-   <default>::server::NotFound</default>
-   <root>::server::IndexApplication2</root>
-   <stylesheet.css> ::server::FileRetriever </stylesheet.css>
-   <prototype.js> ::server::FileRetriever </prototype.js>
-   <xopro.js> ::server::FileRetriever </xopro.js>
-</web>
