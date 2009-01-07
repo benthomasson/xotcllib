@@ -754,6 +754,35 @@ namespace eval ::xode {
 
         return [ ::xox::ObjectGraph findAllInstances ::xotcl::Object ]
     }
+
+    XodeLanguage @@doc git {
+
+        Purpose: Runs a CVS command.
+
+        Arguments: {
+            subcommand A git subcommand.
+            args The arguments to the git subcommand.
+        }
+
+        Example: {
+            git pull
+            git commit -a -m "a message"
+        }
+
+        Tags: xode
+    }
+
+    XodeLanguage instproc git { subcommand args } {
+
+        catch {
+            eval exec git $subcommand $args >&@ stdout
+        }
+    }
+
+    XodeLanguage instproc getValues@git@subcommand { args } {
+
+        return [ list add bisect branch checkout clone commit diff fetch grep init log merge mv pull push rebase reset rm show status tag ]
+    }
 }
 
 
