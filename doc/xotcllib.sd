@@ -65,17 +65,6 @@ document "XOTclLib Users Guide" {
 
         }
 
-        section "xointerp" {
-
-            text {
-
-                Xointerp is an implementation of a Tcl interpreter written in XOTcl.  This allows for the development of 
-                domain specific languages that use Tcl syntax, but define their own semantics for commands.   Domain specific
-                language commands are implemented as methods on an XOTcl class.   In other words, XOTcl classes define
-                the domain specific language. 
-            }
-        }
-
         section "xoshell" {
 
             text {
@@ -101,7 +90,7 @@ document "XOTclLib Users Guide" {
 
             text {
 
-                SimpleTest is a domain specific language for testing XOTcl code. It uses xounit and xointerp to implement a 
+                SimpleTest is a domain specific language for testing XOTcl code. It uses xounit and xodsl to implement a 
                 domain specific language from ::xounit::TestCase.
             }
         }

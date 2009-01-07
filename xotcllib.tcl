@@ -5,7 +5,6 @@ package require xox
 ::xotcllib requires {
     xounit
     xoexception
-    xointerp
     xodsl
     xodocument
     simpletest

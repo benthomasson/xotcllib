@@ -1,6 +1,6 @@
 package require xode
 
 set shell [ ::xode::XodeShell new ]
-puts [ $shell processCommand "runTests xointerp" ]
+puts [ $shell processCommand "runTests xodsl" ]
 
 
