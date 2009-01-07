@@ -348,16 +348,6 @@
         <nodeOrder>208</nodeOrder>
         <runQuiet>0</runQuiet>
     </simpletest:test:TestSimpleTestShell>
-    <tclisp:test:TestLambda>
-        <nextChildNodeOrder>0</nextChildNodeOrder>
-        <nodeOrder>209</nodeOrder>
-        <runQuiet>0</runQuiet>
-    </tclisp:test:TestLambda>
-    <tclisp:test:TestTclisp>
-        <nextChildNodeOrder>0</nextChildNodeOrder>
-        <nodeOrder>210</nodeOrder>
-        <runQuiet>0</runQuiet>
-    </tclisp:test:TestTclisp>
 </xounit:TestSuiteContinuous>
 
 
