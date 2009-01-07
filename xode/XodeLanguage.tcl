@@ -757,7 +757,7 @@ namespace eval ::xode {
 
     XodeLanguage @@doc git {
 
-        Purpose: Runs a CVS command.
+        Purpose: Runs a Git command.
 
         Arguments: {
             subcommand A git subcommand.
