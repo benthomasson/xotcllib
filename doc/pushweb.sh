@@ -1,1 +1,1 @@
-scp -r docs/* pyrolyte_xotcllib@ssh.phx.nearlyfreespeech.net:/home/public/
+rsync -av --delete docs/* pyrolyte_xotcllib@ssh.phx.nearlyfreespeech.net:/home/public/
