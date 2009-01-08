@@ -1,0 +1,25 @@
+package require xohtml
+package require xoweb
+
+Page {
+    fileName docs/index.html
+    content {
+        new XohtmlCss 
+        new TableCSS
+        div -class object {
+            h1 ' XOTclLib
+            p ' XOTclLib is a set of libraries that have been developed to enhance the XOTcl language.
+            p ' Its modules are:
+            table {
+                tr -class even td { ' xox - Basic extensions to XOTcl }
+                tr -class odd  td { ' xounit - Port of JUnit to XOTcl }
+                tr -class even td { ' xoexception - Port of object exceptions to XOTcl, including try-catch-finally }
+                tr -class odd  td { ' xodsl - Domain Specific Language Extension }
+                tr -class even td { ' xohtml - HTML Generation Language }
+                tr -class odd  td { ' xoweb - Web Application Framework built on xohtml and a tcl http server (currently tclhttpd) }
+            }
+        }
+    }
+}
+
+

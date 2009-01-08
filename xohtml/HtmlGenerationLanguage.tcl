@@ -165,6 +165,7 @@ namespace eval ::xohtml {
 
     HtmlGenerationLanguage tag a href name target
     HtmlGenerationLanguage tag b
+    HtmlGenerationLanguage tag p id class
     HtmlGenerationLanguage tag body bgcolor
     HtmlGenerationLanguage tag code
     HtmlGenerationLanguage tag div class id style
