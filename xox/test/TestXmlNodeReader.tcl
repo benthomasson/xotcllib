@@ -578,6 +578,48 @@ namespace eval ::xox::test {
          my assertEquals [ $root set a(max) ] 10
      }
 
+     TestXmlNodeReader instproc testKeyCommaValueSimple {} {
+
+         set xml {
+<::xox::Node> 
+    <a type="keyvalue">
+        <value key="u,v">1</value>
+        <value key="x,y">10</value>
+    </a>
+</::xox::Node>
+         }
+
+         set factory [ ::xox::XmlNodeReader new ]
+
+         set root [ $factory buildNewTree $xml ]
+
+         my assertEquals [ $root info class ] ::xox::Node
+
+         my assertEquals [ $root set a(u,v) ] 1
+         my assertEquals [ $root set a(x,y) ] 10
+     }
+
+     TestXmlNodeReader instproc testKeyValueDoubleColon {} {
+
+         set xml {
+<::xox::Node> 
+    <a type="keyvalue">
+        <value key="u,v">1::6</value>
+        <value key="x,y">10::1</value>
+    </a>
+</::xox::Node>
+         }
+
+         set factory [ ::xox::XmlNodeReader new ]
+
+         set root [ $factory buildNewTree $xml ]
+
+         my assertEquals [ $root info class ] ::xox::Node
+
+         my assertEquals [ $root set a(u,v) ] 1::6
+         my assertEquals [ $root set a(x,y) ] 10::1
+     }
+
      TestXmlNodeReader instproc testXMLValue {} {
 
          set xml {
