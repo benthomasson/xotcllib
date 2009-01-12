@@ -32,6 +32,11 @@ Shell parameter {
    { language }
    { history "" }
    { doHistory 1 }
+   { green "\x1B\[32;1m" }
+   { red "\x1B\[31;1m" }
+   { cyan "\x1B\[36;1m" }
+   { clear "\x1B\[0m" }
+   { underline "\x1B\[4m" }
 } 
 
 Shell instproc init { } {
@@ -176,9 +181,9 @@ prompt does ...
 }
 
 Shell instproc prompt {  } {
-    my instvar output 
+    my instvar output  red underline clear cyan
 
-    puts -nonewline $output "[ my name ]>"
+    puts -nonewline $output "$cyan$underline[ my name ]>$clear"
     flush $output
 }
 
