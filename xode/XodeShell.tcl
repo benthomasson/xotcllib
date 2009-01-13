@@ -49,9 +49,9 @@ namespace eval ::xode {
 
 
     XodeShell instproc prompt {  } {
-        my instvar output 
+        my instvar output cyan underline clear
 
-        puts -nonewline $output "xode:[ file tail [pwd] ]>"
+        puts -nonewline $output "${cyan}${underline}xode:[ file tail [pwd] ]>$clear"
         flush $output
     }
 
