@@ -118,16 +118,26 @@ Shell instproc processCommand { command } {
         set secondCommand ""
         set firstCommand [ lindex $command 0 ]
         set secondCommand [ lindex $command 1 ]
+        set arguments [ lrange $command 1 end ]
     }
 
     set method ${firstCommand}
 
     if { "exit" == "$method" } {
-
         my exit
         return
     }
-        
+    
+    if { "history" == "$method" } {
+        eval my printHistory $arguments
+        return
+    }
+
+    if { "rerun" == "$method" } {
+        eval my rerunHistory $arguments
+        return
+    }
+
 
     if { ! [ my isCommand $method ] } {
 
@@ -523,6 +533,43 @@ Shell instproc getObjectCommands { object pattern { objectName "" } endsWithSpac
 Shell instproc exit { args } {
 
     my done 1
+}
+
+Shell instproc printHistory { { lastLines "" } } {
+
+    my instvar history
+    set number 1
+    set lines [ llength $history ]
+    set size [ string length $lines ]
+    if { "" == "$lastLines" } {
+        set lastLines $lines
+    }
+    set startLine [ expr { $lines - $lastLines } ]
+    foreach line $history {
+        if { $number > $startLine } { 
+            my putLine "[ format %${size}d $number ]. $line"
+        }
+        incr number
+    }
+    my prompt
+}
+
+Shell instproc rerunHistory { -keep:switch } { { startLine 1 } { stopLine "end" } } {
+
+    my instvar history
+
+    incr startLine -1
+    if { "$stopLine" != "end" } {
+        incr stopLine -1
+    }
+    set lines [ lrange $history $startLine $stopLine ]
+    incr startLine -1
+    set history [ lrange $history 0 $startLine ]
+
+    foreach line $lines {
+
+        my executeCommand $line
+    }
 }
 
 Shell instproc writeHistory { } {
