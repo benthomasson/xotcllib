@@ -16,7 +16,7 @@ namespace eval ::xode {
 #Save and exit to change values: (ESC):wq(ENTER)"}
     }
 
-    ObjectEditor instproc edit { -noninteractive:switch } { object } {
+    ObjectEditor instproc edit { -noninteractive:switch { -except {} } } { object } {
 
         my instvar message 
 
@@ -29,6 +29,8 @@ namespace eval ::xode {
         puts $out [ subst $message ]
 
         foreach var [ $object info vars ] {
+
+            if { [ lsearch -exact $except $var ] != -1 } continue
 
             if [ $object array exists $var ] { 
                 foreach index [ lsort [ $object array names ] ] {
