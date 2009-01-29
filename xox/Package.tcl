@@ -83,7 +83,15 @@ namespace eval ::xox {
         return [ string trim [ string range $id 1 end-1 ] ]
     }
 
-    Package instproc version { } {
+    Package instproc version { { version "" } } {
+
+        if { "" != "$version" } {
+            return [ my set version $version ]
+        }
+
+        if [ my exists version ] {
+            return [ my set version ]
+        }
 
         my instvar id
         set version [ lindex $id 2 ]
