@@ -365,9 +365,14 @@ Shell instproc doHelp { object command } {
     }
 
     set class [ ::xox::ObjectGraph findFirstImplementationClass $object ${command} ]
+    if { "$class" == "" } {
+        if [ ::xox::TclDoc exists "#($command)"] {
+            set class ::xox::TclDoc
+        }
+    }
     if { "$class" == "" } { 
         my putLine ""
-        my putLine "Not a command"
+        my putLine "No help for: $command from $object ( [$object info class] )"
         if { ! $done } { my prompt }
         return 
     }
