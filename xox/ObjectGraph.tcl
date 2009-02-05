@@ -630,7 +630,7 @@ namespace eval ::xox {
             if { [ lsearch -exact $except $var ] != -1 }  { continue }
 
             if [ $from array exists $var ] {
-                if [ $to exists $var] { $to unset $var }
+                if { [ $to exists $var ] && ! [ $to array exists $var ] } { catch { $to unset $var } }
                 foreach index [ $from array names $var ] {
                     $to set ${var}(${index}) [ $from set ${var}(${index}) ]
                 }
@@ -668,7 +668,7 @@ namespace eval ::xox {
             if { [ lsearch -exact $except $var ] != -1 }  { continue }
 
             if [ uplevel [ list array exists $var ] ] {
-                if [ $to exists $var ] { catch { $to unset $var } }
+                if { [ $to exists $var ] && ! [ $to array exists $var ] } { catch { $to unset $var } }
                 foreach index [ uplevel [ list array names $var ] ] {
                     $to set ${var}(${index}) [ uplevel [ list set ${var}(${index}) ] ]
                 }

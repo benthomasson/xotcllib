@@ -197,6 +197,45 @@ namespace eval ::xox::test {
 
         my assertSetEquals [ $object info vars ] {a b c object}
         my assertEquals [ $object set object ] $object
+        my assertEquals [ $object set a ] 5
+        my assertEquals [ $object set b ] 6
+        my assertEquals [ $object set c ] 7
+    }
+
+    TestObjectGraph instproc testCopyScopeVariablesArray { } {
+
+        set object [ Object new ]
+
+        set x(a) 5
+        set x(b) 6
+        set x(c) 7
+
+        ::xox::ObjectGraph copyScopeVariables $object
+
+        my assertSetEquals [ $object info vars ] {x object}
+        my assertEquals [ $object set object ] $object
+        my assertEquals [ $object set x(a) ] 5
+        my assertEquals [ $object set x(b) ] 6
+        my assertEquals [ $object set x(c) ] 7
+    }
+
+    TestObjectGraph instproc testCopyScopeVariablesArray { } {
+
+        set object [ Object new ]
+        $object set x(d) 8
+
+        set x(a) 5
+        set x(b) 6
+        set x(c) 7
+
+        ::xox::ObjectGraph copyScopeVariables $object
+
+        my assertSetEquals [ $object info vars ] {x object}
+        my assertEquals [ $object set object ] $object
+        my assertEquals [ $object set x(a) ] 5
+        my assertEquals [ $object set x(b) ] 6
+        my assertEquals [ $object set x(c) ] 7
+        my assertEquals [ $object set x(d) ] 8
     }
 
     TestObjectGraph instproc testCopyObjectVariablesToScope { } {

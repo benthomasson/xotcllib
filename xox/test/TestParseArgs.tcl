@@ -42,6 +42,7 @@ namespace eval ::xox::test {
         my assertEquals [ my set another(1) ] 2 
         set pa [ ::xox::ParseArgs parse "-another(2)" ]
         $pa configureObject [ self ] 
+        my assertEquals [ my set another(1) ] 2 
         my assertEquals [ my set another(2) ] 1 
     }
 
