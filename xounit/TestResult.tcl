@@ -272,6 +272,16 @@ namespace eval ::xounit {
         return $passes
     }
 
+    TestResult instproc skipped { } {
+
+        foreach result [ my results ] {
+
+            if [ $result skipped ] { return 1 }
+        }
+
+        return 0
+    }
+
     TestResult # passed {
 
         returns 1 only if there are no failures or errors
