@@ -290,6 +290,8 @@ namespace eval ::xounit {
 
     TestResult instproc passed {} {
 
+        if [ my skipped ] { return 1 }
+
         foreach result [ my results ] {
 
             if { ! [ $result passed ] } {

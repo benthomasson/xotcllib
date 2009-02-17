@@ -15,6 +15,11 @@ namespace eval ::xounit {
         { return {} }
     }
 
+    TestSkip instproc passed { } {
+
+        return 1
+    }
+
     TestSkip instproc skipped { } {
 
         return 1
