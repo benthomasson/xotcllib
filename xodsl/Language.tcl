@@ -42,6 +42,11 @@ namespace eval ::xodsl {
 
         return [ my info methods ]
     }
+
+    Language instproc getHelp { args } {
+
+        return ""
+    }
 }
 
 

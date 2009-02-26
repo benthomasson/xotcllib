@@ -1,4 +1,4 @@
-#Created by ben using ::xox::Template
+#Created by bthomass using ::xox::Template
  
 package require xox
 ::xox::Package create ::abc
