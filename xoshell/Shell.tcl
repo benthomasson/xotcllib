@@ -149,7 +149,7 @@ Shell instproc processCommand { command } {
 
     if { "?" == "$secondCommand" } {
 
-        my doHelp $language $firstCommand $arguments
+        my doHelp $language $firstCommand $command
         return
     }
 
@@ -321,11 +321,11 @@ Shell instproc getHelp { command } {
 
     if { "" != "$objectAndCommand" } {
 
-        my doHelp [ lindex $objectAndCommand 0 ] [ lindex [ lindex $objectAndCommand 1 ] 0 ] [ lrange [ lindex $objectAndCommand 1 ] 1 end ]
+        my doHelp [ lindex $objectAndCommand 0 ] [ lindex [ lindex $objectAndCommand 1 ] 0 ] $command
 
     } else {
 
-        my doHelp $language [ lindex $command 0 ] [ lrange $command 1 end ]
+        my doHelp $language [ lindex $command 0 ] $command
     }
 }
 
@@ -353,7 +353,7 @@ doHelp does ...
             command -
 }
 
-Shell instproc doHelp { object command arguments } {
+Shell instproc doHelp { object command fullCommand } {
 
     my instvar done
 
@@ -366,7 +366,7 @@ Shell instproc doHelp { object command arguments } {
 
     catch {
         set languageHelp "" 
-        set languageHelp [ $object getHelp $command $arguments ]
+        set languageHelp [ $object getHelp $command $fullCommand ]
     }
 
     if { "" != "$languageHelp" } {
