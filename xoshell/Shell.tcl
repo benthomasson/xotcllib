@@ -333,7 +333,7 @@ Shell instproc printCommands { object } {
 
         my putLine ""
         my putLine ""
-        my putLine "Commands"
+        my putLine "Commands [ $object info class ]"
         my putLine "====================="
 
         catch {
@@ -376,11 +376,10 @@ Shell instproc doHelp { object command fullCommand } {
         return
     }
 
-    set class [ ::xox::ObjectGraph findFirstImplementationClass $object ${command} ]
-    if { "$class" == "" } {
-        if [ ::xox::TclDoc exists "#($command)"] {
-            set class ::xox::TclDoc
-        }
+    if [ ::xox::TclDoc exists "#($command)"] {
+        set class ::xox::TclDoc
+    } else {
+        set class [ ::xox::ObjectGraph findFirstImplementation $object ${command} ]
     }
     if { "$class" == "" } { 
         my putLine ""
@@ -394,29 +393,31 @@ Shell instproc doHelp { object command fullCommand } {
     my putLine "$command $class"
     my putLine "============================="
     my putLine [ $class getDoc $command ]
-    my putLine "Arguments:"
-    if { "[ $class getArgs $command ][ $class getNonPosArgs $command ]" == "" } {
-        my putLine "\tnone"
-    }
-    foreach arg [ $class getNonPosArgs $command ] {
-        set type [ lindex [ split $arg : ] 1 ]
-        set arg [ lindex [ split $arg : ] 0 ]
-        if { "" == "$type" } { set type "optional" }
-        my putLine "\t$arg - ($type) [ $class getArgument $command $arg ]"
-    }
+    if { "$class" != "::xox::TclDoc" } {
+        my putLine "Arguments:"
+        if { "[ $class getArgs $command ][ $class getNonPosArgs $command ]" == "" } {
+            my putLine "\tnone"
+        }
+        foreach arg [ $class getNonPosArgs $command ] {
+            set type [ lindex [ split $arg : ] 1 ]
+            set arg [ lindex [ split $arg : ] 0 ]
+            if { "" == "$type" } { set type "optional" }
+            my putLine "\t$arg - ($type) [ $class getArgument $command $arg ]"
+        }
 
-    foreach arg [ $class getArgs $command ] {
-        my putLine "\t$arg - [ $class getArgument $command $arg ]"
-    }
-    my putLine "Returns:"
-    foreach return [ $class getReturn $command ] {
-        my putLine "\t$return"
-    }
-    if { "" != "[ string trim [ $class getExample $command ] ]" } {
-        my putLine "Example:"
-        my putLine "---------------------------------"
-        my putLine [ $class getExample $command ]
-        my putLine "---------------------------------"
+        foreach arg [ $class getArgs $command ] {
+            my putLine "\t$arg - [ $class getArgument $command $arg ]"
+        }
+        my putLine "Returns:"
+        foreach return [ $class getReturn $command ] {
+            my putLine "\t$return"
+        }
+        if { "" != "[ string trim [ $class getExample $command ] ]" } {
+            my putLine "Example:"
+            my putLine "---------------------------------"
+            my putLine [ $class getExample $command ]
+            my putLine "---------------------------------"
+        }
     }
     my putLine  ""
 

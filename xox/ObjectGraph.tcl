@@ -332,14 +332,14 @@ namespace eval ::xox {
          of a comment for a certain method or class name.
      }
 
-     ObjectGraph proc findFirstComment { object key } {
+     ObjectGraph proc findFirstCommentClass { object key } {
 
          if [ my isclass $object ] {
 
              foreach class [ concat $object [ $object info heritage ] ] {
                  if { [ $class exists "#($key)" ] } { 
 
-                     return [ $class get# $key ]
+                     return $class 
                  }
              }
 
@@ -348,19 +348,26 @@ namespace eval ::xox {
 
              if { [ $object exists "#($key)" ] } { 
 
-                 return [ $object get# $key ]
+                 return $object 
              }
 
              foreach class [ $object info precedence ] {
 
                  if { [ $class exists "#($key)" ] } { 
 
-                     return [ $class get# $key ]
+                     return $class 
                  }
              }
 
              return ""
          }
+     }
+
+     ObjectGraph proc findFirstComment { object key } {
+
+         set class [ my findFirstCommentClass $object $key ]
+         if { "" == "$class" } { return "" } 
+         return [ $class get# $key ]
      }
 
      ObjectGraph # findFirstImplementation {

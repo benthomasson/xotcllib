@@ -188,7 +188,11 @@ namespace eval ::xox {
 
     MetaData instproc  getNonPosArgs { method } {
 
-        set args [ my info instnonposargs $method ] 
+        if [ my isclass [ self ] ] {
+            set args [ my info instnonposargs $method ] 
+        } else {
+            set args [ my info nonposargs $method ] 
+        }
 
         if [ my exists @nonposargs($method) ] {
 
@@ -198,11 +202,12 @@ namespace eval ::xox {
         return $args
     }
 
-    MetaData instproc  getArgs { method } {
+    MetaData instproc getArgs { method } {
 
-        catch {
-            set args args
+        if [ my isclass [ self ] ] {
             set args [ my info instargs $method ] 
+        } else {
+            set args [ my info args $method ] 
         }
 
         if { "$args" == "args" } {
